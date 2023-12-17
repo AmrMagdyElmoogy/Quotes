@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Quotes</string>
+    <string name="quote">“I\'m selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can\'t handle me at my worst, then you sure as hell don\'t deserve me at my best.</string>
+    <string name="author">Albert Einstein</string>
+    <string name="success">#Success</string>
+    <string name="HomeHeaderTitle">Quotes</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
+    <string name="authors">Authors</string>
+    <string name="quotes">Quotes</string>
+    <string name="tags">Tags</string>
+    <string name="quote_count" translatable="false">1$s Quotes</string>
+</resources>

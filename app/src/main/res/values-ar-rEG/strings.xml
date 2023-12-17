@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">اقتباسات</string>
+    <string name="quote"> استيقظ للكلام </string>
+    <string name="author">محمد حسين </string>
+    <string name="success">#نجاح</string>
+    <string name="HomeHeaderTitle">اقتباسات</string>
+    <string name="home">اخر الاقتباسات</string>
+    <string name="search">بحث</string>
+    <string name="favorites">المفضلات</string>
+    <string name="authors">المؤلفون</string>
+    <string name="quotes">اقتباسات</string>
+    <string name="tags">اشعارات</string>
+</resources>
