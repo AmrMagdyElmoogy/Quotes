@@ -7,9 +7,9 @@
 
 **1- Random Quotes Display :**   
 **2- Share any quote to your friends!:**   
-**2- Search by Author **  
-**3- Search by Content **   
-**4-Translation to Arabic (Future Work):**
+**3- Search by Author :**  
+**4- Search by Content :**   
+**5-Translation to Arabic (Future Work):**
   
 ## ** Architecture Overview:**
 
