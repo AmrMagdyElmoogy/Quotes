@@ -11,7 +11,7 @@
 **4- Search by Content :**   
 **5-Translation to Arabic (Future Work):**
   
-## ** Architecture Overview:**
+##** Architecture Overview:**
 
 ####    Our project is organized into distinct features, each comprising two essential layers:
   + #### UI Layer:   
