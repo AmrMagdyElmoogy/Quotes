@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.AuthorsViewBinding
 import com.example.quotes.search.ui.AuthorFragmentEmptyList
@@ -43,6 +44,7 @@ class AuthorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = binding.searchRecycleView
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.authorUiState.collect {
@@ -57,9 +59,7 @@ class AuthorFragment : Fragment() {
                             binding.error.on()
                         }
 
-                        AuthorFragmentInitialization -> {
-                            binding.initialization.on()
-                        }
+                        AuthorFragmentInitialization -> {}
 
                         AuthorFragmentLoading -> {
                             binding.initialization.off()
@@ -69,6 +69,8 @@ class AuthorFragment : Fragment() {
 
                         is AuthorFragmentSuccess -> {
                             binding.loading.off()
+                            binding.initialization.off()
+                            binding.noData.off()
                             Log.d("Search Fragment", "${it.state.list}")
                             recycleAdapter = AuthorViewAdapter(list = it.state.list)
                             recyclerView.adapter = recycleAdapter

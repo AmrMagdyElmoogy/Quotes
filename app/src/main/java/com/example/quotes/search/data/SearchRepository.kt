@@ -20,25 +20,37 @@ import com.example.quotes.search.ui.TagsFragmentError
 import com.example.quotes.search.ui.TagsFragmentLoading
 import com.example.quotes.search.ui.TagsFragmentSuccess
 import com.example.quotes.utils.DatabaseOperations
-import com.example.quotes.utils.RetrofitApi
+import com.example.quotes.utils.QuotesRetrofitApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.coroutines.*
+import kotlin.coroutines.suspendCoroutine
 
 class SearchRepository : DatabaseOperations() {
     private val _uiSharedState = MutableStateFlow(SearchUiState(BaseInitialization))
     val uiState: StateFlow<SearchUiState>
         get() = _uiSharedState
 
-    private val api = RetrofitApi.api
+    private val wikiRepo = WikiImageExtractor.getInstance()
+    private val api = QuotesRetrofitApi.api
     suspend fun repoToSearchAuthor(query: String) {
         _uiSharedState.update {
             it.copy(state = AuthorFragmentLoading)
         }
         val result = api.searchAuthor(query)
+
         var list: List<Authors>? = null
         if (result.isSuccessful) {
             list = result.body()?.results
+            list = list?.map {
+                it.copy(
+                    link =
+                    getImageUrl(it, wikiRepo)
+                )
+            }
             if (list?.isEmpty() == true) {
                 _uiSharedState.update {
                     it.copy(state = AuthorFragmentEmptyList)
@@ -128,4 +140,20 @@ class SearchRepository : DatabaseOperations() {
             instance ?: throw IllegalAccessError("Repository now is null")
 
     }
+
+    private suspend fun getImageUrl(author: Authors, wikiRepo: WikiImageExtractor): String {
+        val title = author.link.extractTitle()
+        val imageUrl = wikiRepo.getImageUrl(title)
+        return if (imageUrl is WikiResultSuccess) {
+            imageUrl.url ?: ""
+        } else {
+            ""
+        }
+    }
 }
+
+fun String.extractTitle(): String {
+    val index = indexOfLast { it == '/' }
+    return substring(index + 1)
+}
+

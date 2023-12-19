@@ -3,20 +3,17 @@ package com.example.quotes.home.data
 import android.util.Log
 import com.example.quotes.db.QuoteDatabase
 import com.example.quotes.db.QuoteModel
-import com.example.quotes.home.ui.RetrofitError
 import com.example.quotes.home.ui.TAG
 import com.example.quotes.utils.DatabaseOperations
 import kotlinx.coroutines.flow.Flow
-import com.example.quotes.utils.RetrofitApi
-import kotlinx.coroutines.flow.asFlow
+import com.example.quotes.utils.QuotesRetrofitApi
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class HomeRepository private constructor() : DatabaseOperations() {
 
     private val database = QuoteDatabase.getInstance()
-    private val api = RetrofitApi.api
+    private val api = QuotesRetrofitApi.api
     suspend fun repoToGetRandomQuotes(limit: Int): RetrofitResult =
         api.getRandomQuotes(limit).checkIfSuccessfulOrNot()
 

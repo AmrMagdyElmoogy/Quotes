@@ -46,6 +46,8 @@ dependencies {
     val room_version = "2.6.1"
     val nav_version = "2.7.5"
     val lottieVersion = "3.4.0"
+    implementation("org.jsoup:jsoup:1.14.3")
+    implementation("io.coil-kt:coil:2.5.0")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")

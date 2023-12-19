@@ -11,7 +11,7 @@
         <item name="android:elevation">8dp</item> <!-- Adjust elevation as needed -->
         <item name="paddingTopNoTitle">8dp</item>
         <item name="itemIconTint">@color/dark_blue</item> <!-- Customize icon color -->
-        <item name="itemTextColor">@color/black</item> <!-- Customize text color -->
+        <item name="itemTextColor">?attr/android:textColor</item> <!-- Customize text color -->
     </style>
 
     <style name="TabItemTextSelected" parent="TextAppearance.Design.Tab">

@@ -84,13 +84,15 @@ class QuoteSearchFragment : Fragment() {
                         QuoteFragmentLoading -> {
                             binding.initialization.off()
                             binding.loading.off()
-                            binding.loading.on()
                         }
 
                         is QuoteFragmentSuccess -> {
                             binding.loading.off()
+                            binding.noData.off()
+                            binding.initialization.off()
                             recycleAdapter.submitList(it.state.list)
                         }
+
                         else -> {}
                     }
                 }
