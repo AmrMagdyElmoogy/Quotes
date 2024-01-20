@@ -1,26 +1,20 @@
 package com.example.quotes.home.ui
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
-import com.example.quotes.R
 import com.example.quotes.databinding.HomeFragmentBinding
-import com.example.quotes.databinding.QuoteItemBinding
-import com.example.quotes.home.data.toQuoteModel
+import com.example.quotes.home.data.mappers.toQuoteTable
 import com.example.quotes.utils.shareQuote
 import kotlinx.coroutines.launch
 
@@ -53,12 +47,12 @@ class HomeFragment : Fragment() {
         adapter = QuoteViewAdapter(
             addToFavorites = { item ->
                 viewModel.insertNewQuote(
-                    item.toQuoteModel()
+                    item.toQuoteTable()
                 )
             },
             removeFromDB = { item ->
                 viewModel.removeQuote(
-                    item.toQuoteModel()
+                    item.toQuoteTable()
                 )
             },
             shareToPublic = { content, author ->
@@ -70,27 +64,20 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    when (it.state) {
-                        Loading -> {
-                            binding.loading.visibility = View.VISIBLE
-                            binding.homeRecycleView.visibility = View.GONE
-                        }
-
-                        is RetrofitError -> {
-                            binding.error.visibility = View.VISIBLE
-                            binding.homeRecycleView.visibility = View.GONE
-                            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
-                        }
-
-                        Success -> {
-                            binding.loading.visibility = View.GONE
-                            binding.error.visibility = View.GONE
-                            binding.homeRecycleView.visibility = View.VISIBLE
-                            adapter.submitList(
-                                it.list,
-                            )
-                        }
-                        Initialization -> {}
+                    if (it.isLoading) {
+                        binding.loading.visibility = View.VISIBLE
+                        binding.homeRecycleView.visibility = View.GONE
+                    } else if (it.isError) {
+                        binding.error.visibility = View.VISIBLE
+                        binding.homeRecycleView.visibility = View.GONE
+                        Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
+                    } else {
+                        binding.loading.visibility = View.GONE
+                        binding.error.visibility = View.GONE
+                        binding.homeRecycleView.visibility = View.VISIBLE
+                        adapter.submitData(
+                            it.quotes
+                        )
                     }
                 }
             }

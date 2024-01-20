@@ -46,7 +46,9 @@ dependencies {
     val room_version = "2.6.1"
     val nav_version = "2.7.5"
     val lottieVersion = "3.4.0"
+    val paging_version = "3.2.1"
     implementation("org.jsoup:jsoup:1.14.3")
+    implementation("androidx.paging:paging-runtime:$paging_version")
     implementation("io.coil-kt:coil:2.5.0")
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation("androidx.room:room-runtime:$room_version")

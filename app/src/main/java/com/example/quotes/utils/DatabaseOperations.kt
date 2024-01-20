@@ -2,13 +2,13 @@ package com.example.quotes.utils
 
 import android.util.Log
 import com.example.quotes.db.QuoteDatabase
-import com.example.quotes.db.QuoteModel
+import com.example.quotes.db.QuoteTable
 
 open class DatabaseOperations {
 
     val db: QuoteDatabase = QuoteDatabase.getInstance()
 
-    open suspend fun insertToDB(quote: QuoteModel) {
+    open suspend fun insertToDB(quote: QuoteTable) {
         try {
             db.dao().insertNewQuoteToDB(quote)
         } catch (e: Exception) {
@@ -16,7 +16,7 @@ open class DatabaseOperations {
         }
     }
 
-    open suspend fun removeQuoteFromDB(quote: QuoteModel) {
+    open suspend fun removeQuoteFromDB(quote: QuoteTable) {
         try {
             db.dao().removeQuote(quote)
         } catch (e: Exception) {

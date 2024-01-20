@@ -3,14 +3,12 @@ package com.example.quotes.favorites.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.quotes.db.QuoteModel
-import com.example.quotes.home.data.HomeRepository
-import com.example.quotes.home.data.QuoteEntity
+import com.example.quotes.db.QuoteTable
+import com.example.quotes.home.domain.HomeRepository
+import com.example.quotes.home.data.models.SingleQuoteResponse
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,7 +21,7 @@ class FavoritesViewModel : ViewModel() {
     val favoritesUiState: StateFlow<FavoritesUiState>
         get() = _favoritesUiState
 
-    fun removeQuote(quote: QuoteModel) {
+    fun removeQuote(quote: QuoteTable) {
         viewModelScope.launch {
             repo.removeQuoteFromDB(quote)
         }
@@ -61,5 +59,5 @@ data class FavoritesUiState(
 sealed class FavoritesStates
 data object Initialization : FavoritesStates()
 data class DatabaseException(val message: String) : FavoritesStates()
-data class EmptyList(val list: List<QuoteEntity> = emptyList()) : FavoritesStates()
-data class SuccessList(val list: List<QuoteModel>) : FavoritesStates()
+data class EmptyList(val list: List<SingleQuoteResponse> = emptyList()) : FavoritesStates()
+data class SuccessList(val list: List<QuoteTable>) : FavoritesStates()

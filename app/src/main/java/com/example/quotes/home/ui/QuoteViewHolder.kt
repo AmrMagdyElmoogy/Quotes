@@ -3,28 +3,26 @@ package com.example.quotes.home.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.graphics.Color
-import android.view.animation.AnimationSet
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.QuoteItemBinding
-import com.example.quotes.home.data.QuoteEntity
+import com.example.quotes.home.data.models.SingleQuoteResponse
+import com.example.quotes.home.domain.Quote
 
 class QuoteViewHolder(
     private val binding: QuoteItemBinding,
-    private val addToFavorites: (QuoteEntity) -> Unit,
-    private val removeFromDB: (QuoteEntity) -> Unit,
+    private val addToFavorites: (Quote) -> Unit,
+    private val removeFromDB: (Quote) -> Unit,
     private val shareToPublic: (String, String) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: QuoteEntity) {
+    fun bind(item: Quote) {
         binding.apply {
             content.text = item.content
             author.text = item.author
-            tagText.text = item.tags.first()
+            tagText.text = item.tag
             heartIcon.setColorFilter(if (item.isFav) Color.RED else Color.BLACK)
         }
         binding.heartIcon.setOnClickListener {

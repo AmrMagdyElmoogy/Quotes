@@ -1,6 +1,6 @@
 package com.example.quotes.search.ui
 
-import com.example.quotes.home.data.QuoteEntity
+import com.example.quotes.home.data.models.SingleQuoteResponse
 import com.example.quotes.search.data.Authors
 import com.example.quotes.search.ui.tags.data.Tags
 
@@ -18,7 +18,7 @@ data object AuthorFragmentLoading : SearchUiStates()
 //Quote Tab States
 data object QuoteFragmentEmptyList : SearchUiStates()
 data object QuoteFragmentInitialization : SearchUiStates()
-data class QuoteFragmentSuccess(val list: List<QuoteEntity>) : SearchUiStates()
+data class QuoteFragmentSuccess(val list: List<SingleQuoteResponse>) : SearchUiStates()
 data class QuoteFragmentError(val message: String) : SearchUiStates()
 data object QuoteFragmentLoading : SearchUiStates()
 

@@ -1,8 +1,8 @@
 package com.example.quotes.search.data
 
 import android.util.Log
-import com.example.quotes.db.QuoteModel
-import com.example.quotes.home.data.QuoteEntity
+import com.example.quotes.db.QuoteTable
+import com.example.quotes.home.data.models.SingleQuoteResponse
 import com.example.quotes.home.ui.TAG
 import com.example.quotes.search.ui.SearchUiState
 import com.example.quotes.search.ui.tags.data.Tags
@@ -21,13 +21,9 @@ import com.example.quotes.search.ui.TagsFragmentLoading
 import com.example.quotes.search.ui.TagsFragmentSuccess
 import com.example.quotes.utils.DatabaseOperations
 import com.example.quotes.utils.QuotesRetrofitApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.coroutines.*
-import kotlin.coroutines.suspendCoroutine
 
 class SearchRepository : DatabaseOperations() {
     private val _uiSharedState = MutableStateFlow(SearchUiState(BaseInitialization))
@@ -69,11 +65,11 @@ class SearchRepository : DatabaseOperations() {
         }
     }
 
-    override suspend fun insertToDB(quote: QuoteModel) {
+    override suspend fun insertToDB(quote: QuoteTable) {
         super.insertToDB(quote)
     }
 
-    suspend fun removeFromDB(quote: QuoteModel) {
+    suspend fun removeFromDB(quote: QuoteTable) {
         super.removeQuoteFromDB(quote)
     }
 
@@ -108,7 +104,7 @@ class SearchRepository : DatabaseOperations() {
             it.copy(state = QuoteFragmentLoading)
         }
         val result = api.searchQuote(query)
-        var list: List<QuoteEntity>? = null
+        var list: List<SingleQuoteResponse>? = null
         if (result.isSuccessful) {
             list = result.body()?.results
             if (list?.isEmpty() == true) {

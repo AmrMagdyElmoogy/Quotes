@@ -1,24 +1,30 @@
-package com.example.quotes.home.data
+package com.example.quotes.home.domain
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.quotes.api.RetrofitService
 import com.example.quotes.db.QuoteDatabase
-import com.example.quotes.db.QuoteModel
+import com.example.quotes.db.QuoteTable
+import com.example.quotes.home.data.pagination.QuotesPagingSource
 import com.example.quotes.home.ui.TAG
 import com.example.quotes.utils.DatabaseOperations
 import kotlinx.coroutines.flow.Flow
-import com.example.quotes.utils.QuotesRetrofitApi
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.Response
 
-class HomeRepository private constructor() : DatabaseOperations() {
+class HomeRepository private constructor(
+    private val database: QuoteDatabase,
+    private val pageSource: QuotesPagingSource
+) : DatabaseOperations() {
+    fun getRandomQuotes(): Flow<PagingData<Quote>> = Pager(
+        config = PagingConfig(10),
+        pagingSourceFactory = { pageSource }
+    ).flow
 
-    private val database = QuoteDatabase.getInstance()
-    private val api = QuotesRetrofitApi.api
-    suspend fun repoToGetRandomQuotes(limit: Int): RetrofitResult =
-        api.getRandomQuotes(limit).checkIfSuccessfulOrNot()
 
-
-    fun getAllFavorites(): Flow<List<QuoteModel>> {
+    fun getAllFavorites(): Flow<List<QuoteTable>> {
         try {
             return database.dao().getAllFavorites()
         } catch (e: Exception) {
@@ -27,25 +33,13 @@ class HomeRepository private constructor() : DatabaseOperations() {
         return flowOf(emptyList())
     }
 
-    companion object {
-        private var instance: HomeRepository? = null
-        fun initialize() {
-            if (instance == null) {
-                instance = HomeRepository()
-            }
-        }
-
-        fun getInstance(): HomeRepository =
-            instance ?: throw IllegalAccessError("Repository now is null")
-
-    }
 
 
-    override suspend fun insertToDB(quote: QuoteModel) {
+    override suspend fun insertToDB(quote: QuoteTable) {
         super.insertToDB(quote)
     }
 
-    override suspend fun removeQuoteFromDB(quote: QuoteModel) {
+    override suspend fun removeQuoteFromDB(quote: QuoteTable) {
         super.removeQuoteFromDB(quote)
     }
 }

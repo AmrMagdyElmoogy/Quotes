@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 interface QuoteDao {
 
     @Query("Select * from favorites")
-    fun getAllFavorites(): Flow<List<QuoteModel>>
+    fun getAllFavorites(): Flow<List<QuoteTable>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertNewQuoteToDB(quoteModel: QuoteModel)
+    suspend fun insertNewQuoteToDB(quoteModel: QuoteTable)
 
-    @Delete(entity = QuoteModel::class)
-    suspend fun removeQuote(quoteModel: QuoteModel)
+    @Delete(entity = QuoteTable::class)
+    suspend fun removeQuote(quoteModel: QuoteTable)
 
 
 }

@@ -12,9 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.FavoritesFragmentBinding
-import com.example.quotes.databinding.QuotesViewTabBinding
 import com.example.quotes.db.toQuoteEntity
-import com.example.quotes.home.data.toQuoteModel
+import com.example.quotes.home.data.models.toQuoteModel
 import com.example.quotes.home.ui.QuoteViewAdapter
 import com.example.quotes.utils.shareQuote
 import kotlinx.coroutines.launch

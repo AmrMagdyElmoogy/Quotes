@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.QuotesViewTabBinding
-import com.example.quotes.home.data.toQuoteModel
+import com.example.quotes.home.data.models.toQuoteModel
 import com.example.quotes.home.ui.QuoteViewAdapter
 import com.example.quotes.search.ui.QuoteFragmentEmptyList
 import com.example.quotes.search.ui.QuoteFragmentError

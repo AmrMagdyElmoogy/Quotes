@@ -1,27 +1,29 @@
 package com.example.quotes.home.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.quotes.db.QuoteModel
-import com.example.quotes.home.data.HomeRepository
-import com.example.quotes.home.data.QuoteEntity
-import com.example.quotes.home.data.RetrofitException
-import com.example.quotes.home.data.RetrofitSuccess
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.quotes.db.QuoteTable
+import com.example.quotes.home.domain.HomeRepository
+import com.example.quotes.home.domain.Quote
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+
 
 const val TAG = "HomeViewModel"
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val homeRepo: HomeRepository
+) : ViewModel() {
 
-    private val homeRepo: HomeRepository = HomeRepository.getInstance()
-
-    private val _uiState = MutableStateFlow(HomeUiState(emptyList(), Initialization))
+    private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState>
         get() = _uiState
 
@@ -30,23 +32,23 @@ class HomeViewModel : ViewModel() {
         getNewerRandomQuotes()
     }
 
-    fun insertNewQuote(quote: QuoteModel) {
+    fun insertNewQuote(quote: QuoteTable) {
         viewModelScope.launch {
             homeRepo.insertToDB(quote)
             _uiState.update { currentState ->
-                val updatedList = currentState.list.map {
+                val updatedList = currentState.quotes.map {
                     if (it.id == quote.id) {
                         it.copy(isFav = quote.isFav)
                     } else {
                         it
                     }
                 }
-                currentState.copy(list = updatedList)
+                currentState.copy(quotes = updatedList)
             }
         }
     }
 
-    fun removeQuote(quote: QuoteModel) {
+    fun removeQuote(quote: QuoteTable) {
         viewModelScope.launch {
             homeRepo.removeQuoteFromDB(quote)
         }
@@ -54,14 +56,32 @@ class HomeViewModel : ViewModel() {
 
     private fun getNewerRandomQuotes() {
         _uiState.update {
-            it.copy(state = Loading)
+            it.copy(
+                isLoading = true,
+            )
         }
         viewModelScope.launch {
-            val newQuotes = homeRepo.repoToGetRandomQuotes(25)
-            if (newQuotes is RetrofitSuccess<*>) {
+            val newQuotes = homeRepo.getRandomQuotes()
+            newQuotes.catch {
                 _uiState.update {
                     it.copy(
-                        list = newQuotes.result as List<QuoteEntity>,
+                        isLoading = false,
+                        isError = true,
+                    )
+                }
+            }.collect { data ->
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        quotes = data
+                    )
+                }
+            }
+
+            /*if (newQuotes is RetrofitSuccess<*>) {
+                _uiState.update {
+                    it.copy(
+                        list = newQuotes.result as List<SingleQuoteResponse>
                         state = Success
                     )
                 }
@@ -69,7 +89,7 @@ class HomeViewModel : ViewModel() {
                 _uiState.update {
                     it.copy(state = RetrofitError(newQuotes.message))
                 }
-            }
+            }*/
         }
 
     }
@@ -77,12 +97,7 @@ class HomeViewModel : ViewModel() {
 }
 
 data class HomeUiState(
-    val list: List<QuoteEntity>,
-    val state: HomeStates
+    val quotes: PagingData<Quote> = PagingData.empty(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
 )
-
-sealed class HomeStates
-data object Initialization : HomeStates()
-data object Loading : HomeStates()
-data object Success : HomeStates()
-data class RetrofitError(val message: String) : HomeStates()
