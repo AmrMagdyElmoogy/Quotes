@@ -17,7 +17,7 @@ class AuthorsViewHolder(private val binding: ItemSearchBinding) :
         binding.numberQuotes.text = "${item.quoteCount} Quotes"
         binding.avatar.load(item.link){
             crossfade(true)
-            placeholder(R.drawable.avatar)
+            placeholder(R.drawable.placeholder)
         }
     }
 }

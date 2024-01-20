@@ -7,9 +7,10 @@ import com.airbnb.lottie.LottieAnimationView
 
 fun Intent.shareQuote(content: String, author: String): Intent {
     apply {
-        putExtra(Intent.EXTRA_SUBJECT, content)
-        putExtra(Intent.EXTRA_TITLE, author)
+        putExtra(Intent.EXTRA_SUBJECT, author)
+        putExtra(Intent.EXTRA_TEXT, content)
         type = "text/plain"
+
     }
     return this
 }
