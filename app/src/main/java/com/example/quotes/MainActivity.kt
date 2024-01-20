@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
     }
-
     private val navController by lazy {
         navHostFragment.navController
     }

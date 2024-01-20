@@ -3,10 +3,14 @@ package com.example.quotes.utils
 import android.util.Log
 import com.example.quotes.db.QuoteDatabase
 import com.example.quotes.db.QuoteTable
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class DatabaseOperations {
+@Singleton
+open class DatabaseOperations @Inject constructor(
+    private val db: QuoteDatabase
+) {
 
-    val db: QuoteDatabase = QuoteDatabase.getInstance()
 
     open suspend fun insertToDB(quote: QuoteTable) {
         try {

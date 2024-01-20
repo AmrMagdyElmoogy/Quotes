@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quotes.search.data.SearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
-
-    private val repo: SearchRepository = SearchRepository.getInstance()
-
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val repo: SearchRepository
+) : ViewModel() {
 
     var query: String? = null
         private set

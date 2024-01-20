@@ -1,7 +1,7 @@
 package com.example.quotes.di
 
-import com.example.quotes.api.RetrofitService
-import com.example.quotes.utils.BASE_URL
+import com.example.quotes.api.WikiRetrofitService
+import com.example.quotes.utils.WIKI_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,19 +14,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object QuotesRetrofitApi {
+object WikiRetrofitApi {
     @Singleton
     @Provides
-    @Named("Quotes")
+    @Named("Wiki")
     fun provideRetrofitInstance(): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(WIKI_BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
 
     @Singleton
     @Provides
-    fun provideApiServiceInstance(@Named("Quotes") retrofit: Retrofit): RetrofitService =
-        retrofit.create(RetrofitService::class.java)
+    fun provideApiServiceInstance(@Named("Wiki") retrofit: Retrofit): WikiRetrofitService =
+        retrofit.create(WikiRetrofitService::class.java)
 }

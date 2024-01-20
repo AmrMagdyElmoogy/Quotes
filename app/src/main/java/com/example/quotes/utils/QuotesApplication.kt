@@ -8,8 +8,4 @@ import com.example.quotes.search.data.WikiImageExtractor
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class QuotesApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-}
+class QuotesApplication : Application() {}

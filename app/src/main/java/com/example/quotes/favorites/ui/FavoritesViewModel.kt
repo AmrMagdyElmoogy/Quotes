@@ -6,17 +6,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.quotes.db.QuoteTable
 import com.example.quotes.home.domain.HomeRepository
 import com.example.quotes.home.data.models.SingleQuoteResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val FAV_VIEW = "FavoritesView"
 
-class FavoritesViewModel : ViewModel() {
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(
+    private val repo: HomeRepository,
+) : ViewModel() {
 
-    private val repo: HomeRepository = HomeRepository.getInstance()
     private val _favoritesUiState = MutableStateFlow(FavoritesUiState(state = Initialization))
     val favoritesUiState: StateFlow<FavoritesUiState>
         get() = _favoritesUiState

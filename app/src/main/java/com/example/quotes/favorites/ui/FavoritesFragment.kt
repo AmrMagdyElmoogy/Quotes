@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.FavoritesFragmentBinding
-import com.example.quotes.db.toQuoteEntity
-import com.example.quotes.home.data.models.toQuoteModel
+import com.example.quotes.home.data.mappers.toQuote
+import com.example.quotes.home.data.mappers.toQuoteTable
 import com.example.quotes.home.ui.QuoteViewAdapter
 import com.example.quotes.utils.shareQuote
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ class FavoritesFragment : Fragment() {
         }
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: QuoteViewAdapter
+    private lateinit var adapter: FavoritesViewAdapter
     private val viewModel by viewModels<FavoritesViewModel>()
 
     override fun onCreateView(
@@ -41,9 +41,9 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.favoritesRecycleView.quoteRecycleView
-        adapter = QuoteViewAdapter(
+        adapter = FavoritesViewAdapter(
             removeFromDB = { item ->
-                viewModel.removeQuote(item.toQuoteModel())
+                viewModel.removeQuote(item.toQuoteTable())
             },
             shareToPublic = { content, author ->
                 val intent = Intent(Intent.ACTION_SEND).shareQuote(content, author)
@@ -59,7 +59,7 @@ class FavoritesFragment : Fragment() {
                         is EmptyList -> {
                             binding.favoritesRecycleView.initialization.visibility = View.GONE
                             binding.emptyList.visibility = View.VISIBLE
-                            adapter.submitList(it.state.list)
+                            adapter.submitList(emptyList())
                         }
 
                         Initialization -> {}
@@ -67,7 +67,7 @@ class FavoritesFragment : Fragment() {
                             binding.favoritesRecycleView.initialization.visibility = View.GONE
                             binding.emptyList.visibility = View.GONE
                             adapter.submitList(
-                                it.state.list.map { model -> model.toQuoteEntity() },
+                                it.state.list.map { model -> model.toQuote() },
                             )
                         }
                     }

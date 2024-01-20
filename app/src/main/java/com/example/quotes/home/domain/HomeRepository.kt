@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class HomeRepository @Inject constructor(
     private val database: QuoteDatabase,
     private val pageSource: QuotesPagingSource
-) : DatabaseOperations() {
+) : DatabaseOperations(database) {
     fun getRandomQuotes(): Flow<PagingData<Quote>> = Pager(
         config = PagingConfig(10),
         pagingSourceFactory = { pageSource }
@@ -36,7 +36,6 @@ class HomeRepository @Inject constructor(
         }
         return flowOf(emptyList())
     }
-
 
 
     override suspend fun insertToDB(quote: QuoteTable) {

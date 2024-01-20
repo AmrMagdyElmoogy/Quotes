@@ -4,10 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quotes.db.QuoteTable
 import com.example.quotes.search.data.SearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class QuoteViewModel : ViewModel() {
-    private val repo = SearchRepository.getInstance()
+@HiltViewModel
+class QuoteViewModel @Inject constructor(
+    private val repo: SearchRepository
+) : ViewModel() {
     val quoteUiState = repo.uiState
 
     fun insertNewQuote(quoteModel: QuoteTable) {

@@ -1,26 +1,17 @@
 package com.example.quotes.search.data
 
 import com.example.quotes.api.WikiRetrofitService
-import com.example.quotes.utils.WikiRetrofitApi
 import org.jsoup.Jsoup
 import java.lang.StringBuilder
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class WikiImageExtractor private constructor() {
+@Singleton
+class WikiImageExtractor @Inject constructor(
+    private val api: WikiRetrofitService
+) {
 
-    companion object {
-        private var instance: WikiImageExtractor? = null
-        fun initialize() {
-            if (instance == null) {
-                instance = WikiImageExtractor()
-            }
-        }
 
-        fun getInstance(): WikiImageExtractor =
-            instance ?: throw IllegalAccessError("Repository now is null")
-
-    }
-
-    private val api = WikiRetrofitApi.api
     suspend fun getImageUrl(title: String): WikiResult {
         return try {
             val response = api.getWikiPage(title)

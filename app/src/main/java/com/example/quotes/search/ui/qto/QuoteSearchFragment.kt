@@ -12,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.QuotesViewTabBinding
-import com.example.quotes.home.data.models.toQuoteModel
+import com.example.quotes.favorites.ui.FavoritesViewAdapter
+import com.example.quotes.home.data.mappers.toQuote
+import com.example.quotes.home.data.mappers.toQuoteTable
 import com.example.quotes.home.ui.QuoteViewAdapter
 import com.example.quotes.search.ui.QuoteFragmentEmptyList
 import com.example.quotes.search.ui.QuoteFragmentError
@@ -33,7 +35,7 @@ class QuoteSearchFragment : Fragment() {
             "You cannot use Author fragment"
         }
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recycleAdapter: QuoteViewAdapter
+    private lateinit var recycleAdapter: FavoritesViewAdapter
 
     // Implement onCreateView to inflate the layout for Tab 1
     override fun onCreateView(
@@ -47,15 +49,15 @@ class QuoteSearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = binding.quoteRecycleView
-        recycleAdapter = QuoteViewAdapter(
+        recycleAdapter = FavoritesViewAdapter(
             addToFavorites = { item ->
                 vm.insertNewQuote(
-                    item.toQuoteModel()
+                    item.toQuoteTable()
                 )
             },
             removeFromDB = { item ->
                 vm.removeQuote(
-                    item.toQuoteModel()
+                    item.toQuoteTable()
                 )
             },
             shareToPublic = { content, author ->
@@ -90,7 +92,7 @@ class QuoteSearchFragment : Fragment() {
                             binding.loading.off()
                             binding.noData.off()
                             binding.initialization.off()
-                            recycleAdapter.submitList(it.state.list)
+                            recycleAdapter.submitList(it.state.list.map { it.toQuote() })
                         }
 
                         else -> {}

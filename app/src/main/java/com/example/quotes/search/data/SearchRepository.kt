@@ -1,6 +1,8 @@
 package com.example.quotes.search.data
 
 import android.util.Log
+import com.example.quotes.api.RetrofitService
+import com.example.quotes.db.QuoteDatabase
 import com.example.quotes.db.QuoteTable
 import com.example.quotes.home.data.models.SingleQuoteResponse
 import com.example.quotes.home.ui.TAG
@@ -20,18 +22,22 @@ import com.example.quotes.search.ui.TagsFragmentError
 import com.example.quotes.search.ui.TagsFragmentLoading
 import com.example.quotes.search.ui.TagsFragmentSuccess
 import com.example.quotes.utils.DatabaseOperations
-import com.example.quotes.utils.QuotesRetrofitApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SearchRepository : DatabaseOperations() {
+@Singleton
+class SearchRepository @Inject constructor(
+    private val api: RetrofitService,
+    private val imageExtractor: WikiImageExtractor,
+    db: QuoteDatabase
+) : DatabaseOperations(db) {
     private val _uiSharedState = MutableStateFlow(SearchUiState(BaseInitialization))
     val uiState: StateFlow<SearchUiState>
         get() = _uiSharedState
 
-    private val wikiRepo = WikiImageExtractor.getInstance()
-    private val api = QuotesRetrofitApi.api
     suspend fun repoToSearchAuthor(query: String) {
         _uiSharedState.update {
             it.copy(state = AuthorFragmentLoading)
@@ -44,7 +50,7 @@ class SearchRepository : DatabaseOperations() {
             list = list?.map {
                 it.copy(
                     link =
-                    getImageUrl(it, wikiRepo)
+                    getImageUrl(it, imageExtractor)
                 )
             }
             if (list?.isEmpty() == true) {
@@ -124,18 +130,6 @@ class SearchRepository : DatabaseOperations() {
         }
     }
 
-    companion object {
-        private var instance: SearchRepository? = null
-        fun initialize() {
-            if (instance == null) {
-                instance = SearchRepository()
-            }
-        }
-
-        fun getInstance(): SearchRepository =
-            instance ?: throw IllegalAccessError("Repository now is null")
-
-    }
 
     private suspend fun getImageUrl(author: Authors, wikiRepo: WikiImageExtractor): String {
         val title = author.link.extractTitle()
