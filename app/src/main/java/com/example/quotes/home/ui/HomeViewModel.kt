@@ -7,19 +7,20 @@ import androidx.paging.map
 import com.example.quotes.db.QuoteTable
 import com.example.quotes.home.domain.HomeRepository
 import com.example.quotes.home.domain.Quote
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 const val TAG = "HomeViewModel"
 
-class HomeViewModel(
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val homeRepo: HomeRepository
 ) : ViewModel() {
 

@@ -5,8 +5,11 @@ import androidx.paging.PagingState
 import com.example.quotes.api.RetrofitService
 import com.example.quotes.home.data.mappers.toQuote
 import com.example.quotes.home.domain.Quote
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class QuotesPagingSource(
+@Singleton
+class QuotesPagingSource @Inject constructor(
     private val api: RetrofitService
 ) : PagingSource<Int, Quote>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Quote> {

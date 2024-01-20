@@ -13,8 +13,12 @@ import com.example.quotes.utils.DatabaseOperations
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class HomeRepository private constructor(
+
+@Singleton
+class HomeRepository @Inject constructor(
     private val database: QuoteDatabase,
     private val pageSource: QuotesPagingSource
 ) : DatabaseOperations() {
