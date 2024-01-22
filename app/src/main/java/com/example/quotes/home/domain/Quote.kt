@@ -6,5 +6,6 @@ data class Quote(
     val author: String = "William Shakespeare",
     val tag: String = "General",
     val isFav: Boolean = false,
+    val translatedText: String = ""
 )
 

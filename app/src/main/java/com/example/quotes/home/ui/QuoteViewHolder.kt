@@ -5,17 +5,24 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.graphics.Color
+import android.opengl.Visibility
+import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quotes.databinding.QuoteItemBinding
 import com.example.quotes.home.data.models.SingleQuoteResponse
 import com.example.quotes.home.domain.Quote
 
+enum class QuoteAction {
+    ADD_TO_FAVORITES,
+    REMOVE_FROM_DB,
+    SHARE_TO_PUBLIC,
+    TRANSLATE,
+}
+
 class QuoteViewHolder(
     private val binding: QuoteItemBinding,
-    private val addToFavorites: (Quote) -> Unit,
-    private val removeFromDB: (Quote) -> Unit,
-    private val shareToPublic: (String, String) -> Unit,
+    private val onAction: (QuoteAction, Quote) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Quote) {
@@ -29,14 +36,18 @@ class QuoteViewHolder(
             val newItem = item.copy(isFav = !item.isFav)
             binding.heartIcon.animate(newItem.isFav)
             if (newItem.isFav) {
-                addToFavorites(newItem)
+                onAction(QuoteAction.ADD_TO_FAVORITES, newItem)
             } else {
-                removeFromDB(newItem)
+                onAction(QuoteAction.REMOVE_FROM_DB, newItem)
             }
 
         }
         binding.shareIcon.setOnClickListener {
-            shareToPublic(item.content, item.author)
+            onAction(QuoteAction.SHARE_TO_PUBLIC, item)
+        }
+
+        binding.translateIcon.setOnClickListener {
+            onAction(QuoteAction.TRANSLATE, item)
         }
     }
 }

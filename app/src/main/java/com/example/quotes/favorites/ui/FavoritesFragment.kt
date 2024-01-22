@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quotes.R
 import com.example.quotes.databinding.FavoritesFragmentBinding
 import com.example.quotes.home.data.mappers.toQuote
 import com.example.quotes.home.data.mappers.toQuoteTable
 import com.example.quotes.home.ui.QuoteViewAdapter
 import com.example.quotes.utils.shareQuote
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     private var _binding: FavoritesFragmentBinding? = null
     private val binding: FavoritesFragmentBinding
@@ -27,7 +31,7 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FavoritesViewAdapter
-    private val viewModel by viewModels<FavoritesViewModel>()
+    private val viewModel: FavoritesViewModel by hiltNavGraphViewModels(R.id.navigation)
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -17,7 +17,7 @@ interface RetrofitService {
     @GET(RANDOM_QUOTES)
     suspend fun getRandomQuotes(
         @Query("limit") limit: Int
-    ): Response<QuotesResponse>
+    ): Response<List<SingleQuoteResponse>>
 
     @GET(SEARCH_AUTHOR)
     suspend fun searchAuthor(

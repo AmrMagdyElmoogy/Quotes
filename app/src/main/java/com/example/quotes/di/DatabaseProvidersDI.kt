@@ -18,7 +18,7 @@ object DatabaseProvidersDI {
 
     @Singleton
     @Provides
-    fun provideRetrofitInstance(
+    fun provideDBInstance(
         @ApplicationContext context: Context,
     ) =
         synchronized(this) {

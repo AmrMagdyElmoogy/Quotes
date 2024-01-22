@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quotes.search.data.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,19 +22,19 @@ class SearchViewModel @Inject constructor(
     }
 
     fun findAuthors() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repo.repoToSearchAuthor(query.toString())
         }
     }
 
     fun getTags() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repo.repoToGetAllTags()
         }
     }
 
     fun findQuotes() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repo.repoToSearchQuote(query.toString())
         }
     }

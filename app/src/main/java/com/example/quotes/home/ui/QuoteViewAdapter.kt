@@ -11,15 +11,13 @@ import com.example.quotes.home.data.models.SingleQuoteResponse
 import com.example.quotes.home.domain.Quote
 
 class QuoteViewAdapter(
-    private val addToFavorites: (Quote) -> Unit = {},
-    private val removeFromDB: (Quote) -> Unit = {},
-    private val shareToPublic: (String, String) -> Unit,
+    private val onAction: (QuoteAction, Quote) -> Unit
 
-    ) : PagingDataAdapter<Quote, QuoteViewHolder>(DIFF_UTIL) {
+) : PagingDataAdapter<Quote, QuoteViewHolder>(DIFF_UTIL) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = QuoteItemBinding.inflate(layoutInflater, parent, false)
-        return QuoteViewHolder(view, addToFavorites, removeFromDB, shareToPublic)
+        return QuoteViewHolder(view, onAction)
     }
 
 

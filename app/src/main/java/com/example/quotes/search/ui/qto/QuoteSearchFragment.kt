@@ -24,9 +24,10 @@ import com.example.quotes.search.ui.QuoteFragmentSuccess
 import com.example.quotes.utils.off
 import com.example.quotes.utils.on
 import com.example.quotes.utils.shareQuote
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class QuoteSearchFragment : Fragment() {
     private val vm: QuoteViewModel by viewModels<QuoteViewModel>()
     private var _binding: QuotesViewTabBinding? = null
@@ -78,9 +79,6 @@ class QuoteSearchFragment : Fragment() {
                         is QuoteFragmentError -> {
                             binding.loading.off()
                             binding.error.on()
-                        }
-
-                        QuoteFragmentInitialization -> {
                         }
 
                         QuoteFragmentLoading -> {

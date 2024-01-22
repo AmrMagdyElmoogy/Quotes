@@ -17,10 +17,10 @@ class QuotesPagingSource @Inject constructor(
         return try {
             val response = api.getRandomQuotes(page)
             if (response.isSuccessful) {
-                val data = response.body()!!.results.map { it.toQuote() }
+                val data = response.body()!!.map { it.toQuote() }
                 LoadResult.Page(
                     data = data,
-                    prevKey = if (page == 10) null else page - 10,
+                    prevKey = null,
                     nextKey = if (data.isEmpty()) null else page + 10
                 )
             } else {

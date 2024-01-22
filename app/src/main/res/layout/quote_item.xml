@@ -23,12 +23,13 @@
 
         <ImageView
             android:layout_width="30dp"
-            app:layout_constraintHorizontal_bias="1.0"
             android:layout_height="30dp"
             android:src="@drawable/quote_right"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/author"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/translatedContent" />
 
         <TextView
             android:id="@+id/content"
@@ -43,6 +44,19 @@
             app:layout_constraintTop_toBottomOf="@id/tag" />
 
         <TextView
+            android:id="@+id/translatedContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/translatedQuote"
+            android:textColor="#121212"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content" />
+
+        <TextView
             android:id="@+id/author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +68,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content" />
+            app:layout_constraintTop_toBottomOf="@id/translatedContent" />
 
         <ImageView
             android:id="@+id/heart_icon"
@@ -76,6 +90,16 @@
             app:layout_constraintStart_toEndOf="@id/heart_icon"
             app:layout_constraintTop_toBottomOf="@id/author" />
 
+        <ImageView
+            android:id="@+id/translate_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/translate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@id/tag"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/tag"
             android:layout_width="wrap_content"
@@ -83,7 +107,8 @@
             app:cardBackgroundColor="#CCCCCC"
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@id/content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/translate_icon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

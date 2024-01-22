@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,9 +25,10 @@ import com.example.quotes.R
 import com.example.quotes.databinding.SearchFragmentBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private var _binding: SearchFragmentBinding? = null
     private val binding: SearchFragmentBinding
@@ -34,7 +36,7 @@ class SearchFragment : Fragment() {
             "You cannot use binding of search fragment right now!"
         }
 
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel: SearchViewModel by hiltNavGraphViewModels(R.id.navigation)
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 

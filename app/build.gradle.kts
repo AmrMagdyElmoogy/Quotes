@@ -49,8 +49,8 @@ dependencies {
     val lottieVersion = "3.4.0"
     val paging_version = "3.2.1"
     implementation("org.jsoup:jsoup:1.14.3")
-    implementation("com.google.dagger:hilt-android:2.44")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.48")
+    ksp("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
     implementation("androidx.paging:paging-runtime:$paging_version")
     implementation("io.coil-kt:coil:2.5.0")

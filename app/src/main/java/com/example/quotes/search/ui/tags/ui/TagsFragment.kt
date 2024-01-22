@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quotes.R
 import com.example.quotes.databinding.TagViewBinding
 import com.example.quotes.search.ui.TagsFragmentEmptyList
 import com.example.quotes.search.ui.TagsFragmentError
@@ -19,16 +21,17 @@ import com.example.quotes.search.ui.TagsFragmentLoading
 import com.example.quotes.search.ui.TagsFragmentSuccess
 import com.example.quotes.utils.off
 import com.example.quotes.utils.on
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class TagsFragment : Fragment() {
     private var _binding: TagViewBinding? = null
     private val binding: TagViewBinding
         get() = checkNotNull(_binding) {
             "You cannot use tag fragment"
         }
-    private val viewModel by viewModels<TagsViewModel>()
+    private val viewModel: TagsViewModel by hiltNavGraphViewModels(R.id.navigation)
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TagViewAdapter
 

@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.quotes.R
 import com.example.quotes.databinding.AuthorsViewBinding
 import com.example.quotes.search.ui.AuthorFragmentEmptyList
 import com.example.quotes.search.ui.AuthorFragmentError
@@ -20,11 +22,12 @@ import com.example.quotes.search.ui.AuthorFragmentLoading
 import com.example.quotes.search.ui.AuthorFragmentSuccess
 import com.example.quotes.utils.off
 import com.example.quotes.utils.on
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class AuthorFragment : Fragment() {
 
-    private val vm: AuthorViewModel by viewModels<AuthorViewModel>()
+    private val vm: AuthorViewModel by hiltNavGraphViewModels(R.id.navigation)
     private var _binding: AuthorsViewBinding? = null
     private val binding: AuthorsViewBinding
         get() = checkNotNull(_binding) {
