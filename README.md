@@ -1,5 +1,5 @@
 
-![](https://raw.githubusercontent.com/AmrMagdyElmoogy/Quotes/main/app/src/main/res/anim/MergedImages.png)
+![](https://github.com/AmrMagdyElmoogy/Quotes/blob/main/app/src/main/res/drawable/mered_image.png)
 # Quotes app 
 ####  "Discover Daily Inspiration with Our App!
 
